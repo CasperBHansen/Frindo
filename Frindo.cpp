@@ -47,7 +47,7 @@ const int vel_2_volt(const float v)
 
 float raw2cm(int raw)
 {
-    return raw * 2.0;
+    return raw * 1.0;
 }
 
 Frindo::Frindo()                           // sets up the pinModes for the pins we are using
@@ -59,7 +59,7 @@ Frindo::Frindo()                           // sets up the pinModes for the pins 
 
     // initialize internal
     wheel = Vector();
-    velocity = 0.0;
+    velocity = 0.0f;
 
     // initialize pins
     pinMode(dirA, OUTPUT);
@@ -76,34 +76,9 @@ Frindo::~Frindo()
     delete left;
 }
 
-// low-level API
-void Frindo::set_motor_r(int vel)
-{
-    digitalWrite (dirA, fwdA);
-    analogWrite (speedA, vel);
-}
-
-void Frindo::set_motor_l(int vel)
-{
-    digitalWrite (dirB, fwdB);
-    analogWrite (speedB, vel);
-}
-
-// high-level API
-void Frindo::go(void)
-{
-    (wheel.getX() < 0) ? digitalWrite(dirA, revA) : digitalWrite(dirA, fwdA);
-    (wheel.getY() < 0) ? digitalWrite(dirB, revB) : digitalWrite(dirB, fwdB);
-    analogWrite (speedA, wheel.getY() * MAX_VOLTAGE);
-    analogWrite (speedB, wheel.getX() * MAX_VOLTAGE);
-}
-
 void Frindo::stop(void)
 {
-    digitalWrite (speedA, LOW);
-    digitalWrite (speedB, LOW);
-
-    velocity = 0.0f;
+    setVelocity(0.0f);
 }
 
 float Frindo::readFront(void)
@@ -121,9 +96,14 @@ float Frindo::readRight(void)
     return right->read();
 }
 
-void Frindo::setSpeed(const float s)
+void Frindo::setVelocity(const float s)
 {
     velocity = clamp<float>(s, MIN_VELOCITY, MAX_VELOCITY);
+
+    (wheel.getX() < 0) ? digitalWrite(dirA, revA) : digitalWrite(dirA, fwdA);
+    (wheel.getY() < 0) ? digitalWrite(dirB, revB) : digitalWrite(dirB, fwdB);
+    analogWrite (speedA, wheel.getY() * velocity * MAX_VOLTAGE);
+    analogWrite (speedB, wheel.getX() * velocity * MAX_VOLTAGE);
 }
 
 void Frindo::setAngle(const float theta)
@@ -133,11 +113,20 @@ void Frindo::setAngle(const float theta)
 
 void Frindo::setPolar(const Vector& v)
 {
-    float x = velocity * cos(v.getY() * DEGREES);
-    float y = velocity * sin(v.getY() * DEGREES);
+    float x = cos(v.getY() * DEGREES);
+    float y = sin(v.getY() * DEGREES);
 
-    this->setSpeed(v.getX());
     this->setDirection(Vector(x, y));
+    this->setVelocity(v.getX());
+}
+
+void Frindo::setPolar(const float s, const float theta)
+{
+    float x = cos(theta * DEGREES);
+    float y = sin(theta * DEGREES);
+
+    this->setDirection(Vector(x, y));
+    this->setVelocity(s);
 }
 
 void Frindo::setDirection(const Vector& v)
@@ -155,7 +144,12 @@ void Frindo::setDirection(const Vector& v)
     this->setWheel(Vector(s,t));
 }
 
+void Frindo::setDirection(const float x, const float y)
+{
+    setDirection(Vector(x,y));
+}
+
 void Frindo::setWheel(const Vector& v)
 {
-    wheel = Vector::normalize(v) * velocity;
+    wheel = Vector::normalize(v);
 }

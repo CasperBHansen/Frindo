@@ -16,12 +16,7 @@ class Frindo
     Frindo();
     ~Frindo();
 
-    // low-level API
-    void set_motor_l(int vel);
-    void set_motor_r(int vel);
-
     // high-level API
-    void go(void);
     void stop(void);
 
     // getters
@@ -29,11 +24,16 @@ class Frindo
     float readLeft(void);
     float readRight(void);
 
+    // planned
+    void turn(const float theta);
+
     // setters
-    void setSpeed(const float s);
+    void setVelocity(const float s);
     void setAngle(const float theta);
     void setPolar(const Vector& v);
+    void setPolar(const float s, const float theta);
     void setDirection(const Vector& v);
+    void setDirection(const float x, const float y);
 
     void setWheel(const Vector& v);
 

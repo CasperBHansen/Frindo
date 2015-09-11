@@ -31,7 +31,7 @@ Vector Vector::normalize(const Vector& v)
     const float a = v.getX();
     const float b = v.getY();
     const float c = v.magnitude();
-    return Vector(a / c, b / c); // operation not defined yet!
+    return Vector(a / c, b / c);
 }
 
 // operators
@@ -60,5 +60,12 @@ Vector& Vector::operator*(const float s)
 {
     x *= s;
     y *= s;
+    return (* this);
+}
+
+Vector& Vector::operator/(const float s)
+{
+    x /= s;
+    y /= s;
     return (* this);
 }

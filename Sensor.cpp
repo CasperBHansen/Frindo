@@ -18,5 +18,6 @@ Sensor::Sensor(int id, float (* func)(int))
 
 float Sensor::read(void)
 {
-    return func(analogRead(id));
+    raw = analogRead(id);
+    return func(raw);
 }

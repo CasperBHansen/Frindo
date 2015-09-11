@@ -25,6 +25,7 @@ class Vector
     Vector& operator-(const Vector& rhs);
 
     Vector& operator*(const float s);
+    Vector& operator/(const float s);
 
     private:
     float x, y;
