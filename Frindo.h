@@ -9,6 +9,7 @@
 
 #include "Vector.h"
 #include "Sensor.h"
+#include "SerialInterpreter.h"
 
 class Frindo
 {
