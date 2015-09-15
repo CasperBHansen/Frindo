@@ -47,7 +47,8 @@ const int vel_2_volt(const float v)
 
 float raw2cm(int raw)
 {
-    return raw * 1.0;
+    float k = (raw / 900);
+    return ((1 / (k * k))) + 2) / 0.4;
 }
 
 Frindo::Frindo()                           // sets up the pinModes for the pins we are using
