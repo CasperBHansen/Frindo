@@ -47,8 +47,8 @@ const int vel_2_volt(const float v)
 
 float raw2cm(int raw)
 {
-    float k = (raw / 900);
-    return ((1 / (k * k))) + 2) / 0.4;
+    float k = ((raw + 80.0) / 900.0);
+    return ((1.0 / (k * k)) + 2.0) / 0.4;
 }
 
 Frindo::Frindo()                           // sets up the pinModes for the pins we are using
@@ -79,6 +79,11 @@ Frindo::~Frindo()
 
 void Frindo::stop(void)
 {
+    Vector opposite(-wheel.getX(), -wheel.getY());
+    this->setWheel(opposite);
+    setVelocity(velocity);
+
+    delay(32);
     setVelocity(0.0f);
 }
 
