@@ -31,7 +31,6 @@ class Frindo
     // setters
     void setVelocity(const float s);
     void setAngle(const float theta);
-    void setPolar(const Vector& v);
     void setPolar(const float s, const float theta);
     void setDirection(const Vector& v);
     void setDirection(const float x, const float y);

@@ -32,6 +32,7 @@ int vel;
 
 #define PI 3.14159265f
 #define DEGREES (PI / 180.0f)
+#define RADIANS (180.0f / PI)
 
 // clamps a value of type T in the interval min-max
 template <typename T>
@@ -114,16 +115,7 @@ void Frindo::setVelocity(const float s)
 
 void Frindo::setAngle(const float theta)
 {
-    this->setPolar(Vector(velocity, theta));
-}
-
-void Frindo::setPolar(const Vector& v)
-{
-    float x = cos((v.getY() + 90.0) * DEGREES);
-    float y = sin((v.getY() + 90.0) * DEGREES);
-
-    this->setDirection(Vector(x, y));
-    this->setVelocity(v.getX());
+    this->setPolar(velocity, theta);
 }
 
 void Frindo::setPolar(const float s, const float theta)
