@@ -52,7 +52,7 @@ float raw2cm(int raw)
     return ((1.0 / (k * k)) + 2.0) / 0.4;
 }
 
-Frindo::Frindo()                           // sets up the pinModes for the pins we are using
+Frindo::Frindo()
 {
     // initialize sensors
     front = new Sensor(0, &raw2cm);
@@ -101,6 +101,11 @@ float Frindo::readLeft(void)
 float Frindo::readRight(void)
 {
     return right->read();
+}
+
+void Frindo::setRelativeVelocity(const float s)
+{
+    this->setVelocity(velocity + s);
 }
 
 void Frindo::setVelocity(const float s)

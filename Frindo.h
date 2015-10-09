@@ -29,6 +29,7 @@ class Frindo
     void turn(const float theta);
 
     // setters
+    void setRelativeVelocity(const float s);
     void setVelocity(const float s);
     void setAngle(const float theta);
     void setPolar(const float s, const float theta);
